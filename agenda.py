@@ -175,10 +175,14 @@ def dataValida(data):
 
 # Valida que o string do projeto está no formato correto. 
 def projetoValido(proj):
-
-  ################ COMPLETAR
-
-  return False
+    elemento_2 = proj.split('+')
+    if len(elemento_2) == 2:
+        if elemento_2[0] != '':
+            return False
+        elemento_1 = proj.split(elemento_2[1])
+        return True
+    else:
+        return False
 
 # Valida que o string do contexto está no formato correto. 
 def contextoValido(cont):
