@@ -104,11 +104,74 @@ DU = DezUni(horaMin2)
 # Valida datas. Verificar inclusive se não estamos tentando
 # colocar 31 dias em fevereiro. Não precisamos nos certificar, porém,
 # de que um ano é bissexto. 
-def dataValida(data) :
 
-  ################ COMPLETAR
+def Dia(data):
+    data = int(data)
+    if data == 0:
+        return False
+    dia = data//1000000
+    return dia
+    
+def Mes(data):
+    data = int(data)
+    if data == 0:
+        return False
+    DDMM = data//10000
+    MM = DDMM % 100
+    return MM
 
-  return False
+def Ano(data):
+    data = int(data)
+    if data == 0:
+        return False
+    ano = (data % (data//10000))
+    return ano
+
+
+def dataValida(data):
+    dia = Dia(data)
+    MM = Mes(data)
+    ano = Ano(data)
+    if len(data) != 8:
+        return False
+    elif type(data) != str:
+        return False
+    for x in data:
+        if x < '0' or x > '9':
+            return False
+        
+            
+    if dia < 1:
+        return False
+
+    elif MM == 1 and dia <= 31:
+        return True
+    elif MM == 3 and dia <= 31:
+        return True
+    elif MM == 5 and dia <= 31:
+        return True
+    elif MM == 7 and dia <= 31:
+        return True
+    elif MM == 8 and dia <= 31:
+        return True
+    elif MM == 10 and dia <= 31:
+        return True
+    elif MM == 12 and dia <= 31:
+        return True
+    
+    elif MM == 4 and dia <= 30:
+        return True
+    elif MM == 6 and dia <= 30:
+        return True
+    elif MM == 9 and dia <= 30:
+        return True
+    elif MM == 11 and dia <= 30:
+        return True
+   
+    elif MM == 2 and dia <= 29:
+        return True
+    else:
+        return False
 
 # Valida que o string do projeto está no formato correto. 
 def projetoValido(proj):
