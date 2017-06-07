@@ -186,10 +186,14 @@ def projetoValido(proj):
 
 # Valida que o string do contexto está no formato correto. 
 def contextoValido(cont):
-
-  ################ COMPLETAR
-
-  return False
+    elemento_2 = cont.split('@')
+    if len(elemento_2) == 2:
+        if elemento_2[0] != '':
+            return False
+        elemento_1 = cont.split(elemento_2[1])
+        return True
+    else:
+        return False
 
 # Valida que a data ou a hora contém apenas dígitos, desprezando espaços
 # extras no início e no fim.
