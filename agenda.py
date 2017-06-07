@@ -64,10 +64,20 @@ def adicionar(descricao, extras):
 
 # Valida a prioridade.
 def prioridadeValida(pri):
-
-  ################ COMPLETAR
-  
-  return False
+    if len(pri) != 3:
+        return False
+    segunda_parte = pri.split('(')
+    if len(segunda_parte[0]) >= 3:
+           return False
+    elif len(segunda_parte[1]) == 2:
+        letra1 = segunda_parte[1].split(')')
+        if len(letra1[0]) != 1:
+            return False
+        letra = letra1[0].upper()
+        if letra >= 'A' and letra <= 'Z':
+            return True
+        else:
+            return False
 
 
 # Valida a hora. Consideramos que o dia tem 24 horas, como no Brasil, ao invés
