@@ -83,33 +83,36 @@ def prioridadeValida(pri):
 # Valida a hora. Consideramos que o dia tem 24 horas, como no Brasil, ao invés
 # de dois blocos de 12 (AM e PM), como nos EUA.
 
-def DezUni(horaMin2):
-    if horaMin2 == 0:
+def DezUni(horaMin):
+    horaMin = int(horaMin)
+    if horaMin == 0:
         DU = 0
         return DU
-    MCDU = horaMin2/100
+    MCDU = horaMin/100
     CDU = MCDU % 10
     C = CDU // 1
+    if C == 0:
+        DU = CDU * 10
+        return DU
     ODU = CDU % C 
     DU = ODU * 100
     if type(DU) == float:
         DU1 = DU//1
         DU = DU1 + 1
-    return DU      #DU é equivalente aos minutos
+    return DU 
 
-def horaValida(horaMin):
-  if len(horaMin) != 4 or not soDigitos(horaMin):
-    return False
-  else:
+
+def horaValida(horaMin) :
+    if len(horaMin) != 4:
+        return False
+    else:
         HoraMinInt = int(horaMin)
         hora = HoraMinInt//100
-        DezUni(horaMin2)
+        DU = DezUni(horaMin)
         if hora <= 23 and hora >= 00 and DU >= 0 and DU <= 59: 
             return True
         else:
             return False
-horaMin2 = int(horaMin)
-DU = DezUni(horaMin2)
 
 # Valida datas. Verificar inclusive se não estamos tentando
 # colocar 31 dias em fevereiro. Não precisamos nos certificar, porém,
@@ -139,9 +142,6 @@ def Ano(data):
 
 
 def dataValida(data):
-    dia = Dia(data)
-    MM = Mes(data)
-    ano = Ano(data)
     if len(data) != 8:
         return False
     elif type(data) != str:
@@ -150,7 +150,9 @@ def dataValida(data):
         if x < '0' or x > '9':
             return False
         
-            
+    dia = Dia(data)
+    MM = Mes(data)
+    ano = Ano(data)        
     if dia < 1:
         return False
 
@@ -230,6 +232,7 @@ def soDigitos(numero) :
 # Todos os itens menos DESC são opcionais. Se qualquer um deles estiver fora do formato, por exemplo,
 # data que não tem todos os componentes ou prioridade com mais de um caractere (além dos parênteses),
 # tudo que vier depois será considerado parte da descrição.  
+linhas = ['22061999 2259 (A) trabalhar no projeto @skype +casa']
 def organizar(linhas):
   itens = []
 
@@ -252,8 +255,28 @@ def organizar(linhas):
     # para saber se são contexto e/ou projeto. Quando isso terminar, o que sobrar
     # corresponde à descrição. É só transformar a lista de tokens em um string e
     # construir a tupla com as informações disponíveis. 
+    if dataValida(tokens[0]) == True:
+        data = tokens.pop(0)
+        if horaValida(tokens[0]) == True:
+            hora = tokens.pop(0)
+        if prioridadeValida(tokens[0]) == True:
+            pri = tokens.pop(0)
+    if dataValida(tokens[0]) == False:
+        if horaValida(tokens[0]) == True:
+            hora = tokens.pop(0)
+        if horaValida(tokens[0]) == False:
+            if prioridadeValida(tokens[0]) == True:
+                pri = tokens.pop(0)
 
-    ################ COMPLETAR
+    if projetoValido(tokens[len(tokens) - 1]) == True:
+        projeto = tokens.pop(len(tokens) - 1)
+    if contextoValido(tokens[len(tokens) - 1]) == True:
+        contexto = tokens.pop(len(tokens) - 1)
+        for x in tokens:
+            desc += ' ' + x
+    else:
+        for y in tokens:
+            desc += ' ' + y
 
     itens.append((desc, (data, hora, pri, contexto, projeto)))
 
