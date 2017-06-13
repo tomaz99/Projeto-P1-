@@ -39,14 +39,33 @@ def printCores(texto, cor) :
 #
 # Qualquer elemento da tupla que contenha um string vazio ('') não
 # deve ser levado em consideração. 
+descricao = 'comer'
+extras = ('13031313 1313 (E) @casa +barriga')
 def adicionar(descricao, extras):
 
   # não é possível adicionar uma atividade que não possui descrição. 
   if descricao  == '' :
     return False
-  
-
-  ################ COMPLETAR
+  if extras == '':
+    novaAtividade += descricao
+    
+  extras = extras.split(' ')
+  if dataValida(extras[0]) == True:
+    dat = extras[0]
+    novaAtividade = dat
+  if horaValida(extras[1]) == True:
+    hor = extras[1]
+    novaAtividade += ' ' + hor
+  if prioridadeValida(extras[2]) == True:
+    priori = extras[2]
+    novaAtividade += ' ' + priori
+  novaAtividade += ' ' + descricao
+  if contextoValido(extras[3]) == True:
+    contex = extras[3]
+    novaAtividade += ' ' + contex
+  if projetoValido(extras[4]) == True:
+    projet = extras[4]
+    novaAtividade += ' ' + projet
 
 
   # Escreve no TODO_FILE. 
@@ -232,7 +251,9 @@ def soDigitos(numero) :
 # Todos os itens menos DESC são opcionais. Se qualquer um deles estiver fora do formato, por exemplo,
 # data que não tem todos os componentes ou prioridade com mais de um caractere (além dos parênteses),
 # tudo que vier depois será considerado parte da descrição.  
-linhas = ['22061999 2259 (A) trabalhar no projeto @skype +casa']
+info = open(TODO_FILE, 'r')
+linhas = info.readlines()
+info.close()
 def organizar(linhas):
   itens = []
 
@@ -270,6 +291,10 @@ def organizar(linhas):
 
     if projetoValido(tokens[len(tokens) - 1]) == True:
         projeto = tokens.pop(len(tokens) - 1)
+    if projetoValido(tokens[len(tokens) - 1]) == False:
+      if contextoValido(tokens[len(tokens) - 2]) == True:
+        contexto = tokens.pop(len(tokens) - 2)
+
     if contextoValido(tokens[len(tokens) - 1]) == True:
         contexto = tokens.pop(len(tokens) - 1)
         for x in tokens:
