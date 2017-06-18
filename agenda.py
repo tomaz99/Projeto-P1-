@@ -239,9 +239,9 @@ def soDigitos(numero) :
 '----------------------------------------------------------------------------------------'
 
 
-info = open(TODO_FILE, 'r')
+'''info = open(TODO_FILE, 'r')
 linhas = info.readlines()
-info.close()
+info.close()'''
 
 def organizar(linhas):
   itens = []
@@ -324,7 +324,7 @@ def listar():
 '----------------------------------------------------------------------------------------'
 
 
-itens = organizar(linhas)
+'''itens = organizar(linhas)'''
 def ordenarPorDataHora(itens): 
   lista_sem_impor = []
   lista_impor = []
@@ -426,7 +426,7 @@ def priorizar(num, prioridade):
         itens = organizar(linhas)
 
     atividade = itens[num - 1]
-    if prioridade == itens[num - 1][1][2]:
+    if prioridade == itens[num - 1][1][2][1:2]:
       return
     else:
       remover(num)
