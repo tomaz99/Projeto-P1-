@@ -16,7 +16,14 @@ ADICIONAR = 'a'
 REMOVER = 'r'   
 FAZER = 'f'     
 PRIORIZAR = 'p' 
-LISTAR = 'l'    
+LISTAR = 'l'
+
+
+
+#abrir o TODO.txt
+arq = open('todo.txt', 'w')
+arq.close()
+
 
 '----------------------------------------------------------------------------------------'
 
