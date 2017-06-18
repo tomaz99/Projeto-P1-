@@ -32,10 +32,10 @@ def printCores(texto, cor) :
 
 def adicionar(descricao, extras):
 
-   
+  novaAtividade = '' 
   if descricao  == '' :
     return False
-  if extras == '':
+  if extras == ('', '', '', '', ''):
     novaAtividade += descricao
     
   
@@ -55,6 +55,7 @@ def adicionar(descricao, extras):
   if projetoValido(extras[4]) == True:
     projet = extras[4]
     novaAtividade += ' ' + projet
+  
 
 
   # Escreve no TODO_FILE. 
@@ -415,13 +416,13 @@ def remover(nume):
 
 
 def priorizar(num, prioridade):
-  
+    prioridade = prioridade.upper()
     num = int(num)
     arquivo = open(TODO_FILE, "r+")
     linhas = arquivo.readlines()
     arquivo.close()
     if num > len(linhas):
-        return'Error 404 not found' 
+        raise KeyError(num) 
     else:
         itens = organizar(linhas)
 
@@ -457,28 +458,27 @@ def processarComandos(comandos) :
   elif comandos[1] == REMOVER:
       remover(comandos[2])
 
-      return 'Tarefa excluida'   
+      return    
 
         
 
   elif comandos[1] == FAZER:
       fazer(comandos[2])
 
-      return 'Excluida da sua lista'   
+      return    
 
     
 
   elif comandos[1] == PRIORIZAR:
     priorizar(comandos[2], comandos[3])
     
-    return 'Priorizado com sucesso'    
+    return     
 
     
   else :
     print("Comando invalido.")
     
   
+
 '----------------------------------------------------------------------------------------'
-
-
 processarComandos(sys.argv)
