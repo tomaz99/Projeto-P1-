@@ -19,10 +19,30 @@ PRIORIZAR = 'p'
 LISTAR = 'l'
 
 
+'----------------------------------------------------------------------------------------'
 
-#abrir o TODO.txt
-arq = open('todo.txt', 'w')
-arq.close()
+
+def dataCerta(data):
+    dia = data[0:2]
+    mes = data[2:4]
+    ano = data[4:8]
+    if data == '':
+        return ''
+    else:
+        return dia + '/' + mes + '/' + ano
+
+'----------------------------------------------------------------------------------------'
+
+
+def horaCerta(horario):
+    hora = horario[0:2]
+    minuto = horario[2:4]
+    if hora == '':
+        return ''
+    else:
+        return hora + 'h' + minuto + 'm'
+
+
 
 
 '----------------------------------------------------------------------------------------'
@@ -310,24 +330,51 @@ def listar():
   
   for x in body:
         index = itens.index(x)
+
+        datar = dataCerta(itens[index][1][0])
+        horar = horaCerta(itens[index][1][1])
+        prio = itens[index][1][2]
+        descr = itens[index][0]
+        azinho = itens[index][1][3]
+        projt = itens[index][1][4]
+              
+        texto = str(index + 1) + ' ' + datar + ' ' + horar + ' ' + prio + ' ' + descr + ' ' + azinho + ' ' + projt
+
+        i = 0
+        lacre = ""
+        while i < len(texto)-1:
+            if (texto[i] == " ") and (texto[i + 1] == " "):
+                lacre += texto[i]
+                i += 2
+            else:
+                lacre += texto[i]
+                i += 1
         
-        if itens[index][1][2] == "(A)":
-            printCores(str(index + 1) + " " + linhas[index].strip(), RED + BOLD)
+        if itens[index][1][2] == '(A)':
+            printCores(lacre, RED + BOLD)
 
-        elif itens[index][1][2] == "(B)":
-            printCores(str(index + 1) + " " + linhas[index].strip(), BLUE)
+        elif itens[index][1][2] == '(B)':
+            printCores(lacre, BLUE)
 
-        elif itens[index][1][2] == "(C)":
-            printCores(str(index + 1) + " " + linhas[index].strip(), CYAN)
+        elif itens[index][1][2] == '(C)':
+            printCores(lacre, CYAN)
 
-        elif itens[index][1][2] == "(D)":
-            printCores(str(index + 1) + " " + linhas[index].strip(), GREEN)
+        elif itens[index][1][2] == '(D)':
+            printCores(lacre, GREEN)
 
         else:
-            print(str(index + 1) + " " + linhas[index].strip())
+            print(lacre)
 
   
   return
+
+
+
+
+
+
+
+
 
 '----------------------------------------------------------------------------------------'
 
@@ -344,11 +391,15 @@ def ordenarPorDataHora(itens):
     else:
       lista_impor.append(x)
 
+  if lista_impor == []:
+    itens = lista_sem_impor
+    return itens
 
-  maior = lista_impor[0]
-  contador = 1
-  x = 0
-  while (x < len(lista_impor)):
+  else:
+    maior = lista_impor[0]
+    contador = 1
+    x = 0
+    while (x < len(lista_impor)):
       j = contador
       while j < len(lista_impor):
           data_x = lista_impor[x][1][0][4:8] + lista_impor[x][1][0][2:4] + lista_impor[x][1][0][0:2]
