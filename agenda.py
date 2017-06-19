@@ -64,7 +64,7 @@ def adicionar(descricao, extras):
     return False
   if extras == ('', '', '', '', ''):
     novaAtividade += descricao
-    
+  
   
   if dataValida(extras[0]) == True:
     dat = extras[0]
@@ -75,7 +75,8 @@ def adicionar(descricao, extras):
   if prioridadeValida(extras[2]) == True:
     priori = extras[2]
     novaAtividade += ' ' + priori
-  novaAtividade += ' ' + descricao
+  if extras != ('', '', '', '', ''):
+      novaAtividade += ' ' + descricao
   if contextoValido(extras[3]) == True:
     contex = extras[3]
     novaAtividade += ' ' + contex
@@ -83,7 +84,7 @@ def adicionar(descricao, extras):
     projet = extras[4]
     novaAtividade += ' ' + projet
   
-
+  
 
   # Escreve no TODO_FILE. 
   try: 
@@ -91,7 +92,7 @@ def adicionar(descricao, extras):
     fp.write(novaAtividade + "\n")
     fp.close()
   except IOError as err:
-    print("NÃ£o foi possÃ­vel escrever para o arquivo " + TODO_FILE)
+    print("Não foi possivel escrever para o arquivo " + TODO_FILE)
     print(err)
     return False
 
@@ -144,6 +145,8 @@ def DezUni(horaMin):
 
 
 def horaValida(horaMin) :
+    if horaMin > 'a' and horaMin < 'z' or horaMin > 'A' and horaMin < 'Z':
+        return False
     if len(horaMin) != 4:
         return False
     else:
@@ -506,7 +509,8 @@ def processarComandos(comandos) :
     comandos.pop(0) 
     comandos.pop(0) 
     itemParaAdicionar = organizar([' '.join(comandos)])[0]
-    adicionar(itemParaAdicionar[0], itemParaAdicionar[1]) 
+    adicionar(itemParaAdicionar[0], itemParaAdicionar[1])
+
 
   elif comandos[1] == LISTAR:
     listar()
@@ -540,3 +544,4 @@ def processarComandos(comandos) :
 
 '----------------------------------------------------------------------------------------'
 processarComandos(sys.argv)
+
